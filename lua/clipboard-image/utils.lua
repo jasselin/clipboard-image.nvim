@@ -121,7 +121,13 @@ M.insert_txt = function(affix, path_txt)
   local curpos = vim.fn.getcurpos()
   local line_num, line_col = curpos[2], curpos[3]
   local indent = string.rep(" ", line_col)
-  local txt_topaste = string.format(affix, path_txt)
+
+  local txt_topaste
+  if type(affix) == "function" then
+    txt_topaste = affix(path_txt)
+  else
+    txt_topaste = string.format(affix, path_txt)
+  end
 
   ---Convert txt_topaste to lines table so it can handle multiline string
   local lines = {}
