@@ -9,8 +9,8 @@ M.get_os = function()
 
   local this_os =  tostring(io.popen("uname"):read())
   if this_os == "Linux" and
-      --vim.fn.readfile("/proc/version")[1]:lower():match "microsoft" then
-    --this_os = "Wsl"
+      vim.fn.readfile("/proc/version")[1]:lower():match "microsoft" then
+    this_os = "Wsl"
   end
   return this_os
 end
@@ -34,9 +34,9 @@ M.get_clip_command = function()
     cmd_paste = "pngpaste '%s'"
   elseif this_os == "Windows" or this_os == "Wsl" then
     cmd_check = "Get-Clipboard -Format Image"
-    cmd_paste = "$content = " .. cmd_check .. ";$content.Save('%s', 'png')"
-    cmd_check = 'powershell.exe "' .. cmd_check .. '"'
-    cmd_paste = 'powershell.exe "' .. cmd_paste .. '"'
+    cmd_paste = "$content = " .. cmd_check .. ";$content.Save(\"%s\", \"png\")"
+    cmd_check = "powershell.exe '" .. cmd_check .. "'"
+    cmd_paste = "powershell.exe '" .. cmd_paste .. "'"
   end
   return cmd_check, cmd_paste
 end
